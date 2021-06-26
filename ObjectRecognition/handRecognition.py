@@ -21,19 +21,20 @@ def openWebCam():
 
     while(True):
         success, image = cap.read()
+
         imgRGB = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         results = hands.process(imgRGB)
         #print(type(results))
         #print(results.multi_hand_landmarks)
         if results.multi_hand_landmarks:
             for handLms in results.multi_hand_landmarks:
-                for id, lm in enumerate(handLms.landmark):
-                    # print(id, lm)
-                    h, w, c = image.shape
-                    cx, cy = int(lm.x*w), int(lm.y*h)
-                    if id == 0:
-                        cv2.circle(image, (cx, cy), 25, (255,0,255), cv2.FILLED)
-                        print(id, cx, cy)
+                # for id, lm in enumerate(handLms.landmark):
+                #     # print(id, lm)
+                #     h, w, c = image.shape
+                #     cx, cy = int(lm.x*w), int(lm.y*h)
+                #     if id == 0:
+                #         cv2.circle(image, (cx, cy), 25, (255,0,255), cv2.FILLED)
+                #         print(id, cx, cy)
                 #print(handLms)
                 mpDraw.draw_landmarks(image, handLms, mpHands.HAND_CONNECTIONS)
 
@@ -44,6 +45,7 @@ def openWebCam():
         cv2.putText(image, str(int(fps)), (18, 70), cv2.FONT_HERSHEY_PLAIN, 3, (255,0,255), 3)
         
         # show webcam
+        print(type(image));
         cv2.imshow('Web Cam', image)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
